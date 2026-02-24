@@ -376,45 +376,62 @@ select option {
   background:rgba(0,212,255,0.05);
 }
 
-/* Submit button */
+/* Nouveau Style du Bouton Submit */
 .btn-submit {
-  display:block;
-  width:100%;
-  padding:20px 32px;
-  background:linear-gradient(135deg, #00c6ff 0%, #0055b3 100%);
-  border:none;
-  border-radius:14px;
-  font-family:'Syne', sans-serif;
-  font-size:18px;
-  font-weight:800;
-  color:#fff;
-  cursor:pointer;
-  margin-top:16px;
-  text-align:center;
-  letter-spacing:.04em;
-  transition:transform .2s, box-shadow .2s;
-  position:relative;
-  overflow:hidden;
-  box-shadow:0 8px 32px rgba(0,180,255,0.4);
+  display: block;
+  width: 100%;
+  padding: 22px 32px;
+  background: linear-gradient(135deg, #00d4ff 0%, #0a66c2 100%);
+  border: none;
+  border-radius: 16px;
+  font-family: 'Syne', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 16px;
+  text-align: center;
+  letter-spacing: .04em;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(10, 102, 194, 0.4);
 }
 
-.btn-submit::before {
-  content:'';
-  position:absolute;
-  inset:0;
-  background:linear-gradient(135deg, rgba(255,255,255,0.18), transparent);
-  opacity:0;
-  transition:opacity .2s;
+/* Effet de brillance (Shimmer) */
+.btn-submit::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(30deg);
+  transition: none;
+  animation: shine 3s infinite;
 }
 
-.btn-submit:hover { transform:translateY(-3px); box-shadow:0 14px 40px rgba(0,180,255,0.5); }
-.btn-submit:hover::before { opacity:1; }
-.btn-submit:active { transform:translateY(0); }
+@keyframes shine {
+  0% { left: -60%; }
+  20% { left: 120%; }
+  100% { left: 120%; }
+}
+
+.btn-submit:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(0, 212, 255, 0.5);
+  filter: brightness(1.1);
+}
+
+.btn-submit:active {
+  transform: translateY(0) scale(0.98);
+}
 
 .btn-submit:disabled {
-  opacity:.6;
-  cursor:not-allowed;
-  transform:none;
+  opacity: .6;
+  cursor: not-allowed;
+  animation: none;
 }
 
 /* Success state */
@@ -623,7 +640,7 @@ select option {
       </div>
 
       <button id="submitBtn" onclick="submitForm()">
-        ✅ Je réserve ma place gratuitement
+         Je réserve ma place 
       </button>
 
       <p class="privacy">🔒 Tes informations sont confidentielles et ne seront jamais partagées. Utilisées uniquement pour t'envoyer le lien de connexion.</p>
@@ -696,10 +713,25 @@ async function submitForm() {
     });
 
     if (response.ok) {
+      // 1. Cacher le formulaire et afficher l'écran de succès
       document.getElementById('formSection').style.display = 'none';
       document.getElementById('successName').textContent = prenom;
-      const s = document.getElementById('successScreen');
-      s.style.display = 'block';
+      document.getElementById('successScreen').style.display = 'block';
+
+      // 2. Préparation du lien WhatsApp
+      const lienGroupe = "https://chat.whatsapp.com/CnTV1w4MA776TTPWgf72zE?mode=gi_t"; // Votre lien de groupe
+      const message = `Bonjour ${prenom} ! Félicitations pour ton inscription. Voici le lien pour rejoindre le groupe de la Masterclass : ${lienGroupe}`;
+      
+      // On nettoie le numéro (enlève les espaces, etc.)
+      const numNettoye = whatsapp.replace(/\D/g, ''); 
+
+      // 3. Redirection automatique après 2 secondes pour laisser le prospect voir le message de succès
+      setTimeout(() => {
+        // Cette URL ouvre WhatsApp vers le numéro du prospect avec le lien déjà écrit
+        const waUrl = `https://wa.me/${numNettoye}?text=${encodeURIComponent(message)}`;
+        window.location.href = waUrl;
+      }, 2000);
+
     } else {
       throw new Error('Erreur serveur');
     }
