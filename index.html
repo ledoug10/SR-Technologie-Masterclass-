@@ -376,64 +376,6 @@ select option {
   background:rgba(0,212,255,0.05);
 }
 
-/* Nouveau Style du Bouton Submit */
-.btn-submit {
-  display: block;
-  width: 100%;
-  padding: 22px 32px;
-  background: linear-gradient(135deg, #00d4ff 0%, #0a66c2 100%);
-  border: none;
-  border-radius: 16px;
-  font-family: 'Syne', sans-serif;
-  font-size: 19px;
-  font-weight: 800;
-  color: #fff;
-  cursor: pointer;
-  margin-top: 16px;
-  text-align: center;
-  letter-spacing: .04em;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 10px 25px rgba(10, 102, 194, 0.4);
-}
-
-/* Effet de brillance (Shimmer) */
-.btn-submit::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -60%;
-  width: 40%;
-  height: 200%;
-  background: rgba(255, 255, 255, 0.3);
-  transform: rotate(30deg);
-  transition: none;
-  animation: shine 3s infinite;
-}
-
-@keyframes shine {
-  0% { left: -60%; }
-  20% { left: 120%; }
-  100% { left: 120%; }
-}
-
-.btn-submit:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 15px 35px rgba(0, 212, 255, 0.5);
-  filter: brightness(1.1);
-}
-
-.btn-submit:active {
-  transform: translateY(0) scale(0.98);
-}
-
-.btn-submit:disabled {
-  opacity: .6;
-  cursor: not-allowed;
-  animation: none;
-}
-
 /* Success state */
 .success-screen {
   display:none;
@@ -516,6 +458,84 @@ select option {
   .form-row { grid-template-columns:1fr; }
   .radio-grid { grid-template-columns:1fr; }
 }
+
+/* ===== BOUTON PREMIUM ===== */
+#submitBtn {
+  position: relative;
+  width: 100%;
+  padding: 18px 32px;
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: linear-gradient(135deg, #00d4ff 0%, #0a66c2 50%, #00d4ff 100%);
+  background-size: 200% 200%;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow:
+    0 0 0 1px rgba(0,212,255,0.3),
+    0 4px 20px rgba(0,212,255,0.25),
+    0 8px 40px rgba(10,102,194,0.2);
+  animation: btnGradient 3s ease infinite;
+  margin-top: 8px;
+}
+
+#submitBtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 60%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+#submitBtn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: rgba(255,255,255,0.18);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+
+#submitBtn:hover::after {
+  left: 130%;
+}
+
+#submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(0,212,255,0.5),
+    0 8px 30px rgba(0,212,255,0.4),
+    0 16px 50px rgba(10,102,194,0.3);
+}
+
+#submitBtn:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+#submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  animation: none;
+}
+
+@keyframes btnGradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* ===== FIN BOUTON PREMIUM ===== */
+  
 </style>
 </head>
 <body>
@@ -713,26 +733,29 @@ async function submitForm() {
     });
 
     if (response.ok) {
-      // 1. Cacher le formulaire et afficher l'écran de succès
+      // Afficher l'écran de succès
       document.getElementById('formSection').style.display = 'none';
       document.getElementById('successName').textContent = prenom;
-      document.getElementById('successScreen').style.display = 'block';
+      const s = document.getElementById('successScreen');
+      s.style.display = 'block';
 
-      // 2. Préparation du lien WhatsApp
-      const lienGroupe = "https://chat.whatsapp.com/CnTV1w4MA776TTPWgf72zE?mode=gi_t"; // Votre lien de groupe
-      const message = `Bonjour ${prenom} ! Félicitations pour ton inscription. Voici le lien pour rejoindre le groupe de la Masterclass : ${lienGroupe}`;
-      
-      // On nettoie le numéro (enlève les espaces, etc.)
-      const numNettoye = whatsapp.replace(/\D/g, ''); 
+      // ✅ Rediriger automatiquement le prospect vers le groupe WhatsApp
+      // Nettoyer le numéro : retirer espaces, tirets, parenthèses
+      const numeroNettoye = whatsapp.replace(/[\s\-().+]/g, '');
+  
+      // 👇 Remplace CE LIEN par le vrai lien de ton groupe WhatsApp
+      const lienGroupeWhatsApp = 'https://chat.whatsapp.com/CnTV1w4MA776TTPWgf72zE?mode=gi_t';
+  
+      // Message personnalisé envoyé au prospect avec le lien du groupe
+      const message = encodeURIComponent(
+    `    Bonjour ${prenom} ! 🎉 Ta place à la Masterclass SR Technologie est bien réservée.\n\n👉 Rejoins le groupe WhatsApp ici :\n${lienGroupeWhatsApp}\n\nÀ très vite !`
+      );
 
-      // 3. Redirection automatique après 2 secondes pour laisser le prospect voir le message de succès
+      // Ouvrir automatiquement WhatsApp Web vers le numéro du prospect
       setTimeout(() => {
-        // Cette URL ouvre WhatsApp vers le numéro du prospect avec le lien déjà écrit
-        const waUrl = `https://wa.me/${numNettoye}?text=${encodeURIComponent(message)}`;
-        window.location.href = waUrl;
-      }, 2000);
-
-    } else {
+        window.open(`https://wa.me/${numeroNettoye}?text=${message}`, '_blank');
+      }, 1500); // délai de 1.5s pour laisser le temps de voir la page de succès
+  } else {
       throw new Error('Erreur serveur');
     }
   } catch(e) {
