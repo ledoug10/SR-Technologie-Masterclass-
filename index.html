@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Masterclass Fibre Optique — SR Technologie | 18 Avril 2026</title>
+  <meta name="description" content="Rejoignez la Masterclass Fibre Optique de SR Technologie le 18 Avril 2026. Formez-vous avec des experts certifiés et boostez votre carrière IT." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* === VARIABLES === */
+    :root {
+      --bg-deep:        #080c14;
+      --bg-card:        #0d1421;
+      --border:         rgba(0, 180, 255, 0.12);
+      --border-hover:   rgba(0, 180, 255, 0.35);
+      --blue-primary:   #00b4ff;
+      --green-signal:   #00e676;
+      --orange-accent:  #ff6b35;
+      --text-primary:   #f0f6ff;
+      --text-secondary: #8aa4c8;
+      --text-muted:     #4a6080;
+      --font-display:   'Syne', sans-serif;
+      --font-body:      'DM Sans', sans-serif;
+      --radius-sm:      8px;
+      --radius-md:      14px;
+      --radius-lg:      24px;
+      --transition:     0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-glow:    0 0 40px rgba(0, 180, 255, 0.2);
+    }
+
+    /* === RESET === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* === LAYOUT === */
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* === BOUTON WHATSAPP === */
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding: 17px 36px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 24px rgba(37, 211, 102, 0.35);
+    }
+    .btn-whatsapp::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.12);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .btn-whatsapp:hover  { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(37, 211, 102, 0.5); }
+    .btn-whatsapp:hover::before { opacity: 1; }
+    .btn-whatsapp:active { transform: translateY(-1px); }
+    .btn-whatsapp i      { font-size: 1.2rem; }
+
+    /* === ANIMATIONS === */
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.7); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
+    }
+    @keyframes scan-line {
+      0%   { transform: translateY(-100%); }
+      100% { transform: translateY(400%); }
+    }
+
+    /* === NAVBAR === */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      background: rgba(8, 12, 20, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: padding var(--transition);
+    }
+    .navbar.scrolled { padding: 10px 0; }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--text-primary);
+    }
+    .nav-logo .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--blue-primary), #0070cc);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+    .nav-logo span { color: var(--blue-primary); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-primary);
+      color: var(--bg-deep);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      transition: opacity var(--transition), transform var(--transition);
+    }
+    .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* === HERO === */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 90px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Grille de fond */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 180, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 180, 255, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
+    }
+    .hero-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(ellipse, rgba(0, 180, 255, 0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      padding: 80px 0;
+    }
+
+    /* Badge hero */
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 230, 118, 0.08);
+      border: 1px solid rgba(0, 230, 118, 0.25);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--green-signal);
+      margin-bottom: 24px;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green-signal);
+      flex-shrink: 0;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+    .hero-title .accent       { color: var(--blue-primary); }
+    .hero-title .accent-green { color: var(--green-signal); }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 480px;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+
+    .hero-trust {
+      margin-top: 48px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .trust-avatars { display: flex; }
+    .trust-avatars span {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--bg-deep);
+      background: linear-gradient(135deg, var(--blue-primary), #005fa3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: -10px;
+    }
+    .trust-avatars span:first-child { margin-left: 0; }
+    .trust-text { font-size: 0.85rem; color: var(--text-secondary); }
+    .trust-text strong { color: var(--text-primary); }
+
+    /* === CARTE HERO === */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+    .hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+      overflow: hidden;
+      animation: float 5s ease-in-out infinite;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4), var(--shadow-glow);
+    }
+    /* Ligne de scan animée */
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue-primary), transparent);
+      top: 0;
+      animation: scan-line 3s linear infinite;
+      opacity: 0.5;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-header-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--blue-primary), #0070cc);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-header-text { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
+    .card-header-sub  { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* Badge date sur la carte */
+    .card-date-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 180, 255, 0.08);
+      border: 1px solid rgba(0, 180, 255, 0.2);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--blue-primary);
+      margin-bottom: 14px;
+    }
+    .card-date-badge i { font-size: 0.7rem; }
+
+    /* Image masterclass */
+    .card-image {
+      width: 100%;
+      height: 160px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-topics { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .topic-chip {
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 0.72rem;
+      font-weight: 500;
+      background: rgba(0, 180, 255, 0.06);
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .topic-chip.active {
+      background: rgba(0, 230, 118, 0.1);
+      border-color: rgba(0, 230, 118, 0.3);
+      color: var(--green-signal);
+    }
+
+    .card-urgency {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 107, 53, 0.08);
+      border: 1px solid rgba(255, 107, 53, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+    }
+    .card-urgency span  { font-size: 0.8rem; color: var(--orange-accent); font-weight: 500; }
+    .urgency-bar-wrap   { width: 80px; height: 5px; background: rgba(255,107,53,0.15); border-radius: 999px; }
+    .urgency-bar        { height: 100%; width: 35%; background: var(--orange-accent); border-radius: 999px; }
+
+    /* === URGENCY BANNER === */
+    .urgency-banner {
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 107, 53, 0.05));
+      border-top: 1px solid rgba(255, 107, 53, 0.2);
+      border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+      padding: 18px 0;
+      text-align: center;
+    }
+    .urgency-banner-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .urgency-banner-inner i      { color: var(--orange-accent); }
+    .urgency-banner-inner span   { font-size: 0.9rem; color: var(--text-primary); }
+    .urgency-banner-inner strong { color: var(--orange-accent); }
+
+    /* Countdown */
+    .countdown { display: flex; align-items: center; gap: 10px; }
+    .countdown-item { display: flex; flex-direction: column; align-items: center; }
+    .countdown-num {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--orange-accent);
+      line-height: 1;
+      min-width: 44px;
+      text-align: center;
+      background: rgba(255, 107, 53, 0.08);
+      border: 1px solid rgba(255, 107, 53, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 6px 4px;
+    }
+    .countdown-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-top: 4px; }
+    .countdown-sep   { font-size: 1.3rem; color: var(--orange-accent); font-weight: 700; margin-bottom: 14px; }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      .hero-content { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual  { display: none; }
+      .hero-title   { font-size: 2.2rem; }
+      .countdown    { gap: 6px; }
+      .urgency-banner-inner { gap: 10px; }
+    }
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; align-items: flex-start; width: 100%; }
+      .btn-whatsapp { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================
+       NAVBAR
+       ======================== -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="logo.png" alt="SR Technologie" style="height: 40px; width: auto;" />
+        SR <span>Technologie</span>
+      </a>
+      <a href="https://chat.whatsapp.com/IIwCmOItZiYHEhgbBtn86v" target="_blank" rel="noopener" class="nav-cta">
+        <i class="fab fa-whatsapp"></i> Rejoindre la communauté
+      </a>
+    </div>
+  </nav>
+
+  <!-- ========================
+       HERO
+       ======================== -->
+  <section class="hero" id="accueil">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-content">
+
+        <!-- GAUCHE -->
+        <div class="hero-left">
+          <div class="hero-badge">
+            Inscriptions ouvertes — 18 Avril 2026
+          </div>
+          <h1 class="hero-title">
+            Boostez votre<br />
+            carrière <span class="accent">IT</span> avec<br />
+            nos Masterclass<br />
+            <span class="accent-green">pratiques</span>
+          </h1>
+          <p class="hero-subtitle">
+            Des Masterclass intensives animées par des experts certifiés.
+          </p>
+          <div class="hero-actions">
+            <a href="https://chat.whatsapp.com/IIwCmOItZiYHEhgbBtn86v" target="_blank" rel="noopener" class="btn-whatsapp">
+              <i class="fab fa-whatsapp"></i>
+              Réserver votre place maintenant
+            </a>
+          </div>
+          <div class="hero-trust">
+            <div class="trust-avatars">
+              <span>KD</span><span>AF</span><span>MS</span><span>BL</span>
+            </div>
+            <p class="trust-text">
+              <strong>+200 apprenants</strong> nous font déjà confiance
+            </p>
+          </div>
+        </div>
+
+        <!-- DROITE — Carte visuelle -->
+        <div class="hero-visual">
+          <div class="hero-card">
+
+            <div class="card-header">
+              <div class="card-header-icon">
+                <i class="fas fa-circle-nodes" style="color:#fff; font-size:1rem"></i>
+              </div>
+              <div>
+                <div class="card-header-text">Prochaine Masterclass</div>
+                <div class="card-header-sub">Fibre Optique</div>
+              </div>
+            </div>
+
+            <!-- Badge date -->
+            <div class="card-date-badge">
+              <i class="fas fa-calendar-day"></i>
+              Samedi 18 Avril 2026
+            </div>
+
+            <!-- Image -->
+            <div class="card-image">
+              <img src="fibre.png" alt="Masterclass Fibre Optique SR Technologie" />
+            </div>
+
+            <!-- Sujets -->
+            <div class="card-topics">
+              <span class="topic-chip active">Les bases pour démarrer dans la fibre</span>
+              <span class="topic-chip active">Les opportunités réelles du marché</span>
+              <span class="topic-chip">Les compétences recherchées</span>
+              <span class="topic-chip">Comment décrocher rapidement un emploi</span>
+            </div>
+
+            <!-- Places restantes -->
+            <div class="card-urgency">
+              <span><i class="fas fa-fire"></i> Places limitées</span>
+              <div>
+                <div class="urgency-bar-wrap">
+                  <div class="urgency-bar"></div>
+                </div>
+              </div>
+              <span style="font-weight:700; color: var(--orange-accent);">7/20</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       URGENCY BANNER + COUNTDOWN
+       ======================== -->
+  <div class="urgency-banner">
+    <div class="container urgency-banner-inner">
+      <i class="fas fa-clock"></i>
+      <span><strong>⚠ Places limitées !</strong> Les inscriptions ferment dans :</span>
+      <div class="countdown" id="countdown">
+        <div class="countdown-item">
+          <div class="countdown-num" id="days">00</div>
+          <div class="countdown-label">Jours</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item">
+          <div class="countdown-num" id="hours">00</div>
+          <div class="countdown-label">Heures</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item">
+          <div class="countdown-num" id="minutes">00</div>
+          <div class="countdown-label">Min</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-item">
+          <div class="countdown-num" id="seconds">00</div>
+          <div class="countdown-label">Sec</div>
+        </div>
+      </div>
+      <span>— <strong>Réservez maintenant !</strong></span>
+    </div>
+  </div>
+
+  <!-- ========================
+       JAVASCRIPT
+       ======================== -->
+  <script>
+    /* Navbar scroll */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    /* Countdown — date fixe : 18 Avril 2026 à 23h59 */
+    const targetDate = new Date('2026-04-18T23:59:59');
+
+    function updateCountdown() {
+      const diff = targetDate.getTime() - new Date().getTime();
+      if (diff <= 0) {
+        ['days','hours','minutes','seconds'].forEach(id => {
+          document.getElementById(id).textContent = '00';
+        });
+        return;
+      }
+      const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      document.getElementById('days').textContent    = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent   = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
