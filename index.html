@@ -883,7 +883,7 @@
         <div class="hero-left">
           <div class="hero-badge">
             <i class="fas fa-circle-dot"></i>
-            Inscriptions ouvertes — Prochaine session
+            Inscriptions ouvertes — Prochaine session 18 Avril 2026
           </div>
           <h1 class="hero-title">
             Boostez votre<br />
@@ -993,9 +993,7 @@
     });
 
     /* ── Countdown timer ── */
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + 14);
-    targetDate.setHours(23, 59, 59, 0);
+    const targetDate = new Date('2026-04-17T23:59:59');
 
     function updateCountdown() {
       const now = new Date().getTime();
